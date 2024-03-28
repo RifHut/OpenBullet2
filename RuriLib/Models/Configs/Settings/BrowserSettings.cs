@@ -7,6 +7,8 @@ namespace RuriLib.Models.Configs.Settings
     {
         public string[] QuitBrowserStatuses { get; set; } = Array.Empty<string>();
         public bool Headless { get; set; } = true;
+
+        public List<string> chromeExtensions = new();
         public string CommandLineArgs { get; set; } = "--disable-notifications";
         public bool IgnoreHttpsErrors { get; set; } = false;
         public bool LoadOnlyDocumentAndScript { get; set; } = false;
