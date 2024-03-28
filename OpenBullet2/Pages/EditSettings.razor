@@ -284,6 +284,11 @@
 
         <label>@Loc["BlockedUrls"] (@Loc["BlockedUrlsInfo"])</label>
         <InputListOfStrings @bind-List="settings.BrowserSettings.BlockedUrls" />
+        <br />
+
+        <label>@Loc["ChromeExtensions"] (@Loc["ChromeExtensionsInfo"])</label>
+        <InputListOfStrings @bind-List="settings.BrowserSettings.chromeExtensions" />
+        <br />
     </EditForm>
 
     <button class="btn btn-outline-warning" style="margin: 10px 0;" @onclick="RestoreDefaults">@Loc["RestoreDefaults"]</button>
