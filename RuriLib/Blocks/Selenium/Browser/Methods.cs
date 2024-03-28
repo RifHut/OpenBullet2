@@ -15,6 +15,7 @@ using RuriLib.Helpers;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis.Differencing;
 using System.IO;
+using Renci.SshNet.Common;
 
 namespace RuriLib.Blocks.Selenium.Browser
 {
@@ -70,28 +71,14 @@ namespace RuriLib.Blocks.Selenium.Browser
                     {
                         chromeop.AddArgument("--headless");
                     }
-
                     // Define the path to the directory that contains the Chrome extensions
-                    string extensionsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UserData", "ChromeExtensions");
-
-                    // Check if the directory exists
-                    if (Directory.Exists(extensionsDir))
-                    {
-                        // Get all the .crx files in the directory
-                        string[] extensionFiles = Directory.GetFiles(extensionsDir, "*.crx");
-
-                        // Add each extension to the options
-                        foreach (string extensionPath in extensionFiles)
-                        {
-                            chromeop.AddExtension(extensionPath);
-                        }
+                    else if (data.ConfigSettings.BrowserSettings.chromeExtensions.Count >0) {
+                        chromeop.AddExtensions(data.ConfigSettings.BrowserSettings.chromeExtensions
+                                        .Where(ext => ext.EndsWith(".crx"))
+                                        .Select(ext => Directory.GetCurrentDirectory() + "\\UserData\\ChromeExtensions\\" + ext));
                     }
-                    else
-                    {
 
-                        Console.WriteLine("UserData/ChromeExtensions directory does not exist.");
-                        return;
-                    }
+
 
                     // Initialize the Chrome driver with the options
 
