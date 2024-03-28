@@ -14,6 +14,7 @@ using System.Drawing;
 using RuriLib.Helpers;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis.Differencing;
+using System.IO;
 
 namespace RuriLib.Blocks.Selenium.Browser
 {
@@ -70,6 +71,30 @@ namespace RuriLib.Blocks.Selenium.Browser
                         chromeop.AddArgument("--headless");
                     }
 
+                    // Define the path to the directory that contains the Chrome extensions
+                    string extensionsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UserData", "ChromeExtensions");
+
+                    // Check if the directory exists
+                    if (Directory.Exists(extensionsDir))
+                    {
+                        // Get all the .crx files in the directory
+                        string[] extensionFiles = Directory.GetFiles(extensionsDir, "*.crx");
+
+                        // Add each extension to the options
+                        foreach (string extensionPath in extensionFiles)
+                        {
+                            chromeop.AddExtension(extensionPath);
+                        }
+                    }
+                    else
+                    {
+
+                        Console.WriteLine("UserData/ChromeExtensions directory does not exist.");
+                        return;
+                    }
+
+                    // Initialize the Chrome driver with the options
+
                     if (data.ConfigSettings.BrowserSettings.DismissDialogs)
                     {
                         chromeop.AddArgument("--disable-notifications");
@@ -84,8 +109,8 @@ namespace RuriLib.Blocks.Selenium.Browser
                         {
                             args += ' ' + extraCmdLineArgs;
                         }
-                        // Split the args into an array based on spaces, taking care to not split quoted substrings.
-                        // This regex will split the string by spaces unless the space is within quotes.
+                    
+                        // This regex will split the string by "|" unless the space is within quotes.
                         // Case of Multipe Arguments in extraCmdLineArgs in OpenBrowser Using Selenium Ex: arg1|arg2|arg3...
                         var argsArray = Regex.Matches(args, @"[^|]+")
                                                  .Cast<Match>()
@@ -125,6 +150,7 @@ namespace RuriLib.Blocks.Selenium.Browser
                     {
                         fireop.AddArgument("--headless");
                     }
+                    
 
                     if (data.ConfigSettings.BrowserSettings.DismissDialogs)
                     {
