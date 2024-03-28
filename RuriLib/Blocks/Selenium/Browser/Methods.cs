@@ -12,6 +12,8 @@ using OpenQA.Selenium;
 using System.Linq;
 using System.Drawing;
 using RuriLib.Helpers;
+using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis.Differencing;
 
 namespace RuriLib.Blocks.Selenium.Browser
 {
@@ -19,7 +21,7 @@ namespace RuriLib.Blocks.Selenium.Browser
     public static class Methods
     {
         [Block("Opens a new selenium browser", name = "Open Browser")]
-        public static void SeleniumOpenBrowser(BotData data, string extraCmdLineArgs = "")
+        public static void SeleniumOpenBrowser(BotData data, string extraCmdLineArgs = @"--disable-notifications|--start-maximized|--proxy-server=102.211.59.102:8888|--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36")
         {
             data.Logger.LogHeader();
 
@@ -48,6 +50,7 @@ namespace RuriLib.Blocks.Selenium.Browser
                     chromeop.AddArgument("--disable-blink-features");
                     chromeop.AddArgument("disable-infobars");
                     chromeop.AddExcludedArgument("enable-automation");
+                    chromeop.AddExcludedArgument("test-type");
                     chromeop.AddAdditionalChromeOption("useAutomationExtension", false);
                     chromeop.BinaryLocation = provider.ChromeBinaryLocation;
 
@@ -81,9 +84,18 @@ namespace RuriLib.Blocks.Selenium.Browser
                         {
                             args += ' ' + extraCmdLineArgs;
                         }
+                        // Split the args into an array based on spaces, taking care to not split quoted substrings.
+                        // This regex will split the string by spaces unless the space is within quotes.
+                        // Case of Multipe Arguments in extraCmdLineArgs in OpenBrowser Using Selenium Ex: arg1|arg2|arg3...
+                        var argsArray = Regex.Matches(args, @"[^|]+")
+                                                 .Cast<Match>()
+                                             .Select(m => m).ToList();
+                       foreach (var match in argsArray) { 
+                       // Add the command line arguments to chrome options.
+                       chromeop.AddArguments(match.ToString());
+                       }
 
-                        chromeop.AddArgument(args);
-                    }
+            }
 
                     if (data.UseProxy)
                     {
