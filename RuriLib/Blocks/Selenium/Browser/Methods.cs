@@ -78,8 +78,6 @@ namespace RuriLib.Blocks.Selenium.Browser
                                         .Select(ext => Directory.GetCurrentDirectory() + "\\UserData\\ChromeExtensions\\" + ext));
                     }
 
-
-
                     // Initialize the Chrome driver with the options
 
                     if (data.ConfigSettings.BrowserSettings.DismissDialogs)
