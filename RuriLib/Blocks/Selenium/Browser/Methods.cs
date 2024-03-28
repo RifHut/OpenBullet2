@@ -78,6 +78,30 @@ namespace RuriLib.Blocks.Selenium.Browser
                                         .Select(ext => Directory.GetCurrentDirectory() + "\\UserData\\ChromeExtensions\\" + ext));
                     }
 
+                        // Add each extension to the options
+                        foreach (string extensionPath in extensionFiles)
+                        {
+                            chromeop.AddExtension(extensionPath);
+                        }
+                    }
+                    else
+                    {
+
+                        Console.WriteLine("UserData/ChromeExtensions directory does not exist.");
+                        return;
+
+                        // Add each extension to the options
+                        foreach (string extensionPath in extensionFiles)
+                        {
+                            chromeop.AddExtension(extensionPath);
+                        }
+                    }
+                    else
+                    {
+
+                        Console.WriteLine("UserData/ChromeExtensions directory does not exist.");
+                        return;
+
                     // Initialize the Chrome driver with the options
 
                     if (data.ConfigSettings.BrowserSettings.DismissDialogs)
