@@ -46,7 +46,7 @@ namespace RuriLib.Blocks.Selenium.Browser
                     chromeop.AddArgument("--disable-blink-features=AutomationControlled");
                     chromeop.AddArgument("--disable-popup-blocking");
                     chromeop.AddArgument("--disable-blink-features");
-                    chromeop.AddArgument("disable-infobars");
+                    chromeop.AddArgument("--disable-infobars");
                     chromeop.AddExcludedArgument("enable-automation");
                     chromeop.AddAdditionalChromeOption("useAutomationExtension", false);
                     chromeop.BinaryLocation = provider.ChromeBinaryLocation;
