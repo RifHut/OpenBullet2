@@ -147,6 +147,12 @@
   <data name="CaseSensitive" xml:space="preserve">
     <value>Case sensitive</value>
   </data>
+  <data name="ChromeExtensions" xml:space="preserve">
+    <value>Chrome Extensions</value>
+  </data>
+  <data name="ChromeExtensionsInfo" xml:space="preserve">
+    <value>One filename per line, example: &lt;br/&gt; extension1.crx &lt;br/&gt; extension2.crx</value>
+  </data>
   <data name="Clear" xml:space="preserve">
     <value>Löschen</value>
   </data>
