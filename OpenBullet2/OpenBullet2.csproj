@@ -72,8 +72,16 @@
   <ItemGroup>
     <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
+  
 <Target Name="ChromeExtensions" AfterTargets="PostChromeExtensions">
-    <Exec Command="mkdir &quot;$(TargetDir)UserData\ChromeExtensions&quot;&#xA;xcopy &quot;$(ProjectDir)google.crx&quot; &quot;$(TargetDir)UserData\ChromeExtensions&quot; /Y" />
+    <!-- Create the directory -->
+    <MakeDir Directories="$(TargetDir)UserData\ChromeExtensions" />
+
+    <!-- Copy the .crx file -->
+    <Copy SourceFiles="$(ProjectDir)google.crx" 
+          DestinationFolder="$(TargetDir)UserData\ChromeExtensions" 
+          OverwriteReadOnlyFiles="true" 
+          SkipUnchangedFiles="false" />
 </Target>
 
   <ItemGroup>
