@@ -72,17 +72,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
-  
-<Target Name="ChromeExtensions" AfterTargets="PostChromeExtensions">
-    <!-- Create the directory -->
-    <MakeDir Directories="$(TargetDir)UserData\ChromeExtensions" />
-
-    <!-- Copy the .crx file -->
-    <Copy SourceFiles="$(ProjectDir)google.crx" 
-          DestinationFolder="$(TargetDir)UserData\ChromeExtensions" 
-          OverwriteReadOnlyFiles="true" 
-          SkipUnchangedFiles="false" />
-</Target>
 
   <ItemGroup>
     <ProjectReference Include="..\OpenBullet2.Core\OpenBullet2.Core.csproj" />

@@ -15,6 +15,7 @@ namespace RuriLib.Services
         private string EnvFile => Path.Combine(BaseFolder, "Environment.ini");
         private string RlSettFile => Path.Combine(BaseFolder, "RuriLibSettings.json");
 
+
         public EnvironmentSettings Environment { get; set; }
         public GlobalSettings RuriLibSettings { get; set; }
 
