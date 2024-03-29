@@ -72,6 +72,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
+ 
 
   <ItemGroup>
     <ProjectReference Include="..\OpenBullet2.Core\OpenBullet2.Core.csproj" />

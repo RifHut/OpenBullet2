@@ -81,6 +81,7 @@ namespace OpenBullet2
             services.AddScoped<IWordlistRepository>(service => 
                 new HybridWordlistRepository(service.GetService<ApplicationDbContext>(),
                 "UserData/Wordlists"));
+
             // Singletons
             services.AddSingleton<UpdateService>();
             services.AddSingleton<AnnouncementService>();
