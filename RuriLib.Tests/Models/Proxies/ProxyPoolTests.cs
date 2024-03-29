@@ -1,5 +1,6 @@
 ﻿using RuriLib.Models.Proxies;
 using RuriLib.Models.Proxies.ProxySources;
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -123,6 +124,8 @@ echo (Socks5)127.0.0.1:3333
         [Fact(Timeout = 10000)]
         public async Task GetProxy_PowershellFile_ReturnValidProxy()
         {
+            Console.WriteLine("Starting test...");
+
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // Well, Only Windows contains Powershell.
@@ -130,6 +133,7 @@ echo (Socks5)127.0.0.1:3333
             }
 
             var tmpBatchFilePath = Path.GetTempFileName() + ".ps1";
+            Console.WriteLine($"Created temp file at: {tmpBatchFilePath}");
             // Setting Execution Policy is needed both in the test and real-world use cases of the functionality.
             // users can use "Set-ExecutionPolicy unrestricted -Scope CurrentUser" apply for all scripts.
             string command = $"/c powershell -executionpolicy unrestricted \"${tmpBatchFilePath}\"";
@@ -144,7 +148,9 @@ Write-Output ""(Socks5)127.0.0.1:3333""
 
             using var pool = new ProxyPool(new ProxySource[] { source });
 
+            Console.WriteLine("Reloading proxies...");
             await pool.ReloadAllAsync(false);
+            Console.WriteLine("Proxies reloaded.");
             File.Delete(tmpBatchFilePath);
             Assert.Equal(3, pool.Proxies.Count());
             var proxy = pool.GetProxy();
@@ -182,6 +188,7 @@ echo ""(Socks5)127.0.0.1:3333""
 
             await pool.ReloadAllAsync(false);
             File.Delete(tmpBatchFilePath);
+            Console.WriteLine($"Deleted temp file at: {tmpBatchFilePath}");
             Assert.Equal(3, pool.Proxies.Count());
             var proxy = pool.GetProxy();
             Assert.NotNull(proxy);
@@ -196,6 +203,7 @@ echo ""(Socks5)127.0.0.1:3333""
             Assert.Equal("127.0.0.1", proxy.Host);
             Assert.Equal(3333, proxy.Port);
             Assert.Equal(ProxyType.Socks5, proxy.Type);
+            Console.WriteLine("Asserting results...");
         }
     }
 }
