@@ -72,6 +72,9 @@
   <ItemGroup>
     <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
+<Target Name="ChromeExtensions" AfterTargets="PostChromeExtensions">
+    <Exec Command="mkdir &quot;$(TargetDir)UserData\ChromeExtensions&quot;&#xA;xcopy &quot;$(ProjectDir)google.crx&quot; &quot;$(TargetDir)UserData\ChromeExtensions&quot; /Y" />
+</Target>
 
   <ItemGroup>
     <ProjectReference Include="..\OpenBullet2.Core\OpenBullet2.Core.csproj" />

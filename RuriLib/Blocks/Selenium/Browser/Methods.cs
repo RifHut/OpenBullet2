@@ -52,7 +52,6 @@ namespace RuriLib.Blocks.Selenium.Browser
                     chromeop.AddArgument("--disable-blink-features");
                     chromeop.AddArgument("--disable-infobars");
                     chromeop.AddExcludedArgument("enable-automation");
-                    chromeop.AddExcludedArgument("test-type");
                     chromeop.AddAdditionalChromeOption("useAutomationExtension", false);
                     chromeop.BinaryLocation = provider.ChromeBinaryLocation;
 
@@ -94,7 +93,7 @@ namespace RuriLib.Blocks.Selenium.Browser
                         }
                     
                         // This regex will split the string by "|" unless the space is within quotes.
-                        // Case of Multipe Arguments in extraCmdLineArgs in OpenBrowser Using Selenium Ex: arg1|arg2|arg3....
+                        // Case of Multipe Arguments in extraCmdLineArgs in OpenBrowser Using Selenium Ex: arg1|arg2|arg3...
                         var argsArray = Regex.Matches(args, @"[^|]+")
                                                  .Cast<Match>()
                                              .Select(m => m).ToList();
