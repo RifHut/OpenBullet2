@@ -15,6 +15,7 @@ namespace RuriLib.Services
         private string EnvFile => Path.Combine(BaseFolder, "Environment.ini");
         private string RlSettFile => Path.Combine(BaseFolder, "RuriLibSettings.json");
 
+        private string ChromeExtensionFile => Path.Combine(BaseFolder, "google.crx");
 
         public EnvironmentSettings Environment { get; set; }
         public GlobalSettings RuriLibSettings { get; set; }
@@ -22,6 +23,8 @@ namespace RuriLib.Services
         public RuriLibSettingsService(string baseFolder)
         {
             BaseFolder = baseFolder;
+            
+
             Directory.CreateDirectory(baseFolder);
 
             jsonSettings = new JsonSerializerSettings 
@@ -40,7 +43,33 @@ namespace RuriLib.Services
             RuriLibSettings = File.Exists(RlSettFile)
                 ? JsonConvert.DeserializeObject<GlobalSettings>(File.ReadAllText(RlSettFile), jsonSettings)
                 : CreateGlobalSettings();
+
+            AddChromeExtensionIfExist();
         }
+        public Task AddChromeExtensionIfExist()
+        {
+            // Check if the google.crx file exists
+            if (File.Exists(ChromeExtensionFile))
+            {
+                // Path to the ChromeExtensions directory
+                var chromeExtensionsDir = Path.Combine(BaseFolder, "ChromeExtensions");
+
+                // Ensure the ChromeExtensions directory exists
+                Directory.CreateDirectory(chromeExtensionsDir);
+
+                // Path to the destination file
+                var destinationFile = Path.Combine(chromeExtensionsDir, "google.crx");
+
+                // Copy the google.crx file to the ChromeExtensions directory
+                if (!File.Exists(destinationFile))
+                {
+                    File.Copy(ChromeExtensionFile, destinationFile);
+                }
+            }
+            // Since there's no async work done here anymore, we can return a completed task
+            return Task.CompletedTask;
+        }
+
 
         /// <summary>
         /// Saves the settings to the designated file.
